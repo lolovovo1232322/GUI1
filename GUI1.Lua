@@ -4,74 +4,72 @@ local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 
--- Создаем интерфейс
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = player.PlayerGui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, 300) -- Увеличиваем высоту фрейма для ползунков
+frame.Size = UDim2.new(0, 200, 0, 300) 
 frame.Position = UDim2.new(0.5, -100, 0.5, -150)
-frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Чёрный фон
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) 
 frame.Parent = screenGui
 
--- Функция для создания кнопок с обводкой
 local function createButton(text, position)
     local button = Instance.new("TextButton")
     button.Text = text
     button.Size = UDim2.new(0, 180, 0, 30)
     button.Position = position
-    button.BackgroundColor3 = Color3.fromRGB(42, 42, 42) -- Темный фон кнопки
-    button.TextColor3 = Color3.new(1, 1, 1) -- Белый текст
-    button.TextSize = 18 -- Увеличенный размер текста
-    button.Font = Enum.Font.SourceSansBold -- Жирный шрифт
+    button.BackgroundColor3 = Color3.fromRGB(42, 42, 42) 
+    button.TextColor3 = Color3.new(1, 1, 1) 
+    button.TextSize = 18 
+    button.Font = Enum.Font.SourceSansBold 
     button.Parent = frame
 
-    -- Добавляем обводку (UIStroke)
+   
     local stroke = Instance.new("UIStroke")
-    stroke.Color = Color3.fromRGB(238, 130, 238) -- Неоновый фиолетовый цвет
+    stroke.Color = Color3.fromRGB(238, 130, 238) 
     stroke.Thickness = 1
     stroke.Parent = button
 
     return button
 end
 
--- Функция для создания текстового поля (ползунка)
+
 local function createTextBox(placeholder, position)
     local textBox = Instance.new("TextBox")
     textBox.Size = UDim2.new(0, 180, 0, 30)
     textBox.Position = position
-    textBox.BackgroundColor3 = Color3.fromRGB(42, 42, 42) -- Темный фон
-    textBox.TextColor3 = Color3.new(1, 1, 1) -- Белый текст
-    textBox.PlaceholderText = placeholder -- Текст-подсказка
-    textBox.TextSize = 18 -- Размер текста
-    textBox.Font = Enum.Font.SourceSansBold -- Жирный шрифт
+    textBox.BackgroundColor3 = Color3.fromRGB(42, 42, 42) 
+    textBox.TextColor3 = Color3.new(1, 1, 1) 
+    textBox.PlaceholderText = placeholder 
+    textBox.TextSize = 18 
+    textBox.Font = Enum.Font.SourceSansBold 
     textBox.Parent = frame
 
-    -- Добавляем обводку (UIStroke)
+    
     local stroke = Instance.new("UIStroke")
-    stroke.Color = Color3.fromRGB(238, 130, 238) -- Неоновый фиолетовый цвет
+    stroke.Color = Color3.fromRGB(238, 130, 238) 
     stroke.Thickness = 1
     stroke.Parent = textBox
 
     return textBox
 end
 
--- Создаем кнопки
+
 local speedButton = createButton("Walkspeed", UDim2.new(0, 10, 0, 10))
 local jumpButton = createButton("Jump power", UDim2.new(0, 10, 0, 90))
-local flyButton = createButton("Fly", UDim2.new(0, 10, 0, 170)) -- Кнопка Fly
+local flyButton = createButton("Fly", UDim2.new(0, 10, 0, 170)) 
 
--- Создаем текстовые поля (ползунки)
+
 local speedTextBox = createTextBox("Enter Walkspeed", UDim2.new(0, 10, 0, 50))
 local jumpTextBox = createTextBox("Enter Jump Power", UDim2.new(0, 10, 0, 130))
 
--- Функция для изменения скорости
+
 speedButton.MouseButton1Click:Connect(function()
     local character = player.Character
     if character then
         local humanoid = character:FindFirstChild("Humanoid")
         if humanoid then
-            -- Получаем значение из текстового поля
+            
             local speed = tonumber(speedTextBox.Text)
             if speed and speed > 0 then
                 humanoid.WalkSpeed = speed
@@ -82,13 +80,13 @@ speedButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Функция для изменения высоты прыжка
+
 jumpButton.MouseButton1Click:Connect(function()
     local character = player.Character
     if character then
         local humanoid = character:FindFirstChild("Humanoid")
         if humanoid then
-            -- Получаем значение из текстового поля
+            
             local jumpPower = tonumber(jumpTextBox.Text)
             if jumpPower and jumpPower > 0 then
                 humanoid.JumpPower = jumpPower
@@ -99,13 +97,13 @@ jumpButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Функция для Fly
+
 flyButton.MouseButton1Click:Connect(function()
-    -- Загружаем и выполняем внешний скрипт
+    
     loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
 end)
 
--- Перемещение меню
+
 local dragging = false
 local dragStartPos
 local frameStartPos
@@ -131,10 +129,10 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Закрытие меню по нажатию клавиши K
+
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end -- Игнорируем, если событие уже обработано игрой
+    if gameProcessed then return end 
     if input.KeyCode == Enum.KeyCode.K then
-        screenGui.Enabled = not screenGui.Enabled -- Переключаем видимость меню
+        screenGui.Enabled = not screenGui.Enabled 
     end
 end)
